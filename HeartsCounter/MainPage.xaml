@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.MainPage"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels"
+             x:DataType="viewmodel:MainViewModel">
+
+    <Grid
+        ColumnDefinitions="*"
+        RowDefinitions="260, *, 30">
+
+        <!--header-->
+        <Frame
+            Grid.ColumnSpan="2"
+            CornerRadius="0"
+            BackgroundColor="{StaticResource Gradient_Color_2}"
+            Grid.Row="0">
+
+            <Grid
+                ColumnDefinitions="*"
+                RowDefinitions="*">
+
+                <Image
+                    Grid.ColumnSpan="2"
+                    Grid.Row="0"
+                    Margin="0, 40, 0, 0"
+                    Source="heart_counter_logo.svg"/>
+
+                <Label
+                    Grid.ColumnSpan="2"
+                    Grid.Row="0"
+                    Text="HeartsCounter"
+                    Margin="0, 00, 0,0"
+                    FontSize="30"
+                    FontFamily="AristaProBold"
+                    TextColor="{StaticResource Gradient_Color_1}"
+                    HorizontalTextAlignment="Center"/>
+            </Grid>
+        </Frame>
+        
+        <!--Options list-->
+        <CollectionView
+            ItemsSource="{Binding Options}"
+            Grid.Row="1"
+            ItemsLayout="VerticalGrid, 2"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Gradient_Color_3}, Dark={StaticResource Black }}">
+
+            <!--Option Item-->
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="viewmodel:Option">
+                    <Frame
+                        HeightRequest="150"
+                        Padding="0"
+                        Margin="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                CommandParameter="{Binding .}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=OptionClickCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid
+                            RowDefinitions="100,50"
+                            Padding="0">
+                            <Image
+                                Grid.Row="0"
+                                Margin="20"
+                                Source="{Binding Image}"/>
+                            <Label
+                                Grid.Row="1"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontFamily="AristaProBold"
+                                FontSize="20"
+                                TextColor="Black"
+                                Text="{Binding Name}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <!--Version-->
+        <Label
+            Grid.Row="2"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Gradient_Color_3}, Dark={StaticResource Black }}"
+            Text="{Binding Version}"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            FontFamily="AristaProLight"
+            FontSize="12"
+            />
+    </Grid>
+</ContentPage>

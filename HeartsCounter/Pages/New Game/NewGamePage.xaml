@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.Pages.New_Game.NewGamePage"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.NewGame"
+             xmlns:model="clr-namespace:HeartsCounter.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewmodel:NewGameViewModel"
+             Shell.NavBarIsVisible="True"
+             Title="{Binding Title}">
+
+    <ScrollView
+        >
+        <Grid RowDefinitions="150, Auto">
+
+            <!--body-->
+            <StackLayout
+                Grid.Row="1"
+                Margin="0, 80, 0 ,0"
+                Spacing="0">
+
+                <!--Number of players Slider-->
+                <Grid
+                    RowDefinitions="30,50,10"
+                    ColumnDefinitions="50, *">
+
+                    <Image
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Margin="30, 0, 0, 0"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        Source="ic_number_players.svg">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}" />
+                        </Image.Behaviors>
+                    </Image>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="Number of players"
+                        Margin="20, 0, 0, 0"
+                        VerticalTextAlignment="Center"
+                        Style="{StaticResource CommonBoldLabel}"/>
+
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.ColumnSpan="3"
+                        Margin="30,10,0,0"
+                        Padding="0"
+                        Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand">
+                        <Label x:Name="SliderOne" Text="1" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderTwo" Text="2" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderThree" Text="3" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderFour" Text="4" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderFive" Text="5" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderSix" Text="6" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderSeven" Text="7" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                        <Label x:Name="SliderHeight" Text="8" FontFamily="AristaProBold" FontSize="14" HorizontalOptions="FillAndExpand"></Label>
+                    </StackLayout>
+
+                    <Slider
+                        x:Name="Slider"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Margin="15,-30,25,0"
+                        Maximum="{Binding MaxPlayers}"
+                        Minimum="{Binding MinPlayers}"
+                        Value="1"
+                        HeightRequest="60"
+                        MaximumTrackColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                        MinimumTrackColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                        ThumbColor="Red"
+                        ValueChanged="Slider_ValueChanged"/>
+                </Grid>
+                
+                <!--Add players list-->
+                <CollectionView
+                    x:Name="PlayersCollectionView"
+                    ItemsSource="{Binding Players}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="model:Player">
+                            <Frame
+                                HeightRequest="70"
+                                Padding="0"
+                                Margin="60, 5, 60, 5">
+                                <Grid
+                                    RowDefinitions="30, 50"
+                                    Padding="0"
+                                    Margin="30,0,0,0"
+                                    ColumnDefinitions="*">
+
+                                    <Label
+                                        Margin="0,10,0,0"
+                                        Grid.Row="0"
+                                        Text="{Binding PlayerNumber, StringFormat='Name of player {0}'}"
+                                        VerticalTextAlignment="Center"
+                                        Style="{StaticResource CommonLightLabel}"
+                                        TextColor="Black"/>
+
+                                    <Entry
+                                        Grid.Row="1"
+                                        VerticalTextAlignment="Center"
+                                        Text="{x:Binding Name, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}"
+                                        Placeholder="{Binding PlaceHolder}"
+                                        TextColor="Black"
+                                        PlaceholderColor="Black">
+                                    </Entry>
+                                    
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+                <!--queen info-->
+                <Grid
+                    Margin="40,30,30,10"
+                    Padding="0"
+                    RowDefinitions="50*, 50*"
+                    ColumnDefinitions="*, 75*">
+
+                    <Image 
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Margin="0,5,0,0"
+                        VerticalOptions="Start"
+                        Source="ic_spades_queen.svg"/>
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding SpadesQueenPointsLabel}"
+                        Margin="20, 0, 0, 0"
+                        VerticalTextAlignment="Center"
+                        Style="{StaticResource CommonBoldLabel}"/>
+
+                    <Picker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        WidthRequest="150"
+                        HeightRequest="40"
+                        Margin="20, -3, 0, 0"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Center"
+                        Title="Select Points"
+                        FontFamily="AristaProBold"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged"
+                        ItemsSource="{Binding SpadesQueenPointsValues}"/>
+
+                </Grid>
+                
+                <!--End game info-->
+                <Grid 
+                    Margin="40,30,30,10"
+                    Padding="0"
+                    RowDefinitions="50*, 50*"
+                    ColumnDefinitions="*, 75*">
+                    
+                    <Image 
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        HeightRequest="35"
+                        WidthRequest="35"
+                        Margin="0,5,0,0"
+                        VerticalOptions="Start"
+                        Source="ic_chestnut.svg"/>
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding ChestnutBurstLabel}"
+                        Margin="20, 0, 0, 0"
+                        VerticalTextAlignment="Center"
+                        Style="{StaticResource CommonBoldLabel}"/>
+
+                    <Editor
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        WidthRequest="150"
+                        HeightRequest="40"
+                        FontSize="16"
+                        Margin="20, -3, 0, 0"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        FontFamily="AristaProBold"
+                        Keyboard="Numeric"
+                        Text="{x:Binding ChestnutPoints, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}"
+                        TextChanged="EditorTextChanged"
+                        Placeholder="Select points"/>
+                </Grid>
+
+                <!--Create Game Button-->
+                <Button
+                    Text="{Binding CreateGameButtonText}"
+                    Command="{Binding CreateGameCommand}"
+                    IsEnabled="{Binding CanCreateGame}"
+                    Margin="0,30,0,40"
+                    Style="{StaticResource PositiveButton}"/>
+
+            </StackLayout>
+            
+            <!--Header-->
+            <Frame 
+                BackgroundColor="{StaticResource Gradient_Color_3}"
+                CornerRadius="0"
+                Padding="0">
+
+                <Frame 
+                    Margin="0,0,0,-60"
+                    CornerRadius="60"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White }}"
+                    IsClippedToBounds="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End">
+
+                    <Image 
+                        Source="ic_heart.svg"
+                        HeightRequest="70"
+                        WidthRequest="70"
+                        Aspect="AspectFit" />
+                </Frame>
+            </Frame>
+            <Label
+                Grid.Row="0"
+                HeightRequest="90"
+                TextColor="Black"
+                Text="{Binding NewGameName}"
+                Style="{StaticResource TitleLabel}"
+                />
+        </Grid>
+    </ScrollView>
+</ContentPage>
