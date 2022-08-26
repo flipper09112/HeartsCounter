@@ -34,10 +34,13 @@ public partial class NewGamePage : ContentPage
 	{
         int value = (int)e.NewValue;
 
-		Slider.Value = value;
-		_newGameViewModel.NumberOfPlayers = value;
+		if(value != Slider.Value)
+        {
+            Slider.Value = value;
+            _newGameViewModel.NumberOfPlayers = value;
 
-		HideNumberLabels(value);
+            HideNumberLabels(value);
+        }
     }
 
 	private void HideNumberLabels(int value)
@@ -72,5 +75,15 @@ public partial class NewGamePage : ContentPage
         {
             ((Entry)sender).Text = e.OldTextValue;
         }
+    }
+
+	private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+	{
+
+	}
+
+    private void PlayerNameTextChanged(object sender, TextChangedEventArgs e)
+    {
+		_newGameViewModel.CreateGameCommand.NotifyCanExecuteChanged();
     }
 }

@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using HeartsCounter.Models;
 using HeartsCounter.Models.Games;
+using HeartsCounter.Pages.CurrentGame;
+using HeartsCounter.Pages.New_Game;
 using HeartsCounter.Services.Implementations.Games;
 using HeartsCounter.Services.Interfaces.Games;
 using System;
@@ -9,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace HeartsCounter.ViewModels.NewGame
@@ -87,16 +90,18 @@ namespace HeartsCounter.ViewModels.NewGame
         }
 
         [RelayCommand(CanExecute = nameof(CanExecuteCreateGame))]
-        public void CreateGame()
+        public async Task CreateGameAsync()
         {
             _gameDbManagerService.AddNewGame(new Game()
             {
                 GameName = NewGameName,
-                PlayerList = Players,
+                PlayerListJson = JsonSerializer.Serialize(Players),
                 AscendentPontuation = true,
                 SpadesQueenPointsValue = SpadesQueenPoints,
                 EndScoreValue = ChestnutPoints.Value
             });
+
+            await Shell.Current.GoToAsync(nameof(GamePage), true);
         }
 
         public bool CanExecuteCreateGame()

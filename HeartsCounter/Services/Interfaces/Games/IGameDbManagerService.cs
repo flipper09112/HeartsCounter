@@ -11,6 +11,8 @@ namespace HeartsCounter.Services.Interfaces.Games
     {
         bool AddNewGame(Game newGame);
 
+        Game GetCurrentGame();
+
         List<Game> GetAllGames();
     }
 }

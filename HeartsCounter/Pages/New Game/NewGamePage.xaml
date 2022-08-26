@@ -104,6 +104,7 @@
                                         Grid.Row="1"
                                         VerticalTextAlignment="Center"
                                         Text="{x:Binding Name, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}"
+                                        TextChanged="PlayerNameTextChanged"
                                         Placeholder="{Binding PlaceHolder}"
                                         TextColor="Black"
                                         PlaceholderColor="Black">

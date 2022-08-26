@@ -9,7 +9,7 @@ namespace HeartsCounter.Services.Implementations.Database
     {
         private SQLiteConnection _conn;
 
-        private string _dbPath = FileAccessHelper.GetLocalFilePath("db.db3");
+        private string _dbPath = FileAccessHelper.GetLocalFilePath("gamedb.db3");
 
         public SQLiteConnection SQLConnetion => _conn;
 
@@ -23,13 +23,12 @@ namespace HeartsCounter.Services.Implementations.Database
             if (_conn != null)
                 return;
 
-            var name = System.IO.Path.Combine(FileSystem.AppDataDirectory, "db.db3");
+            var name = System.IO.Path.Combine(FileSystem.AppDataDirectory, "gamedb.db3");
             if(!File.Exists(name))
                 File.Create(name).Close();
 
 
             _conn = new SQLiteConnection(_dbPath);
-
             _conn.CreateTable<Game>();
         }
     }

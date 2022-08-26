@@ -1,14 +1,8 @@
-﻿using HeartsCounter.Models.Games;
+﻿using Android.OS;
+using HeartsCounter.Models.Games;
 using HeartsCounter.Services.Implementations.Database;
 using HeartsCounter.Services.Interfaces.Database;
 using HeartsCounter.Services.Interfaces.Games;
-using Java.Sql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Java.Util.Jar.Attributes;
 
 namespace HeartsCounter.Services.Implementations.Games
 {
@@ -37,10 +31,17 @@ namespace HeartsCounter.Services.Implementations.Games
             }
             catch (Exception ex)
             {
-                //StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                Console.WriteLine(ex.Message);
             }
 
             return new List<Game>();
+        }
+
+        public Game GetCurrentGame()
+        {
+            var list = _databaseManagerService.SQLConnetion.Table<Game>().ToList();
+
+            return list.Count == 0 ? null : list.First();
         }
     }
 }

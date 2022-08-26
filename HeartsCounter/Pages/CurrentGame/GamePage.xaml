@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.Pages.CurrentGame.GamePage"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.CurrentGame"
+             x:DataType="viewmodel:GameViewModel"
+             xmlns:model="clr-namespace:HeartsCounter.Models"
+             Shell.NavBarIsVisible="True"
+             Title="{Binding Title}">
+
+    <Grid
+        RowDefinitions="*, 80"
+        ColumnDefinitions="*">
+        <ScrollView>
+            <Grid
+                RowDefinitions="55, *"
+                ColumnDefinitions="55, *">
+                
+                <!--Rounds label title-->
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Rounds"
+                    HeightRequest="55"
+                    WidthRequest="55"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource CommonBoldLabel}"/>
+
+                <!--rounds number-->
+                <ScrollView 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Padding="0"
+                    VerticalScrollBarVisibility="Never">
+                    <StackLayout
+                        Padding="0"
+                        BindableLayout.ItemsSource="{Binding Rounds}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout
+                                    Padding="0">
+                                    <Label
+                                        Text="{Binding}"
+                                        HeightRequest="25"
+                                        WidthRequest="55"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource CommonBoldLabel}"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <!--Players List-->
+                <CollectionView
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    ItemsSource="{Binding Players}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="model:Player">
+                            <Grid
+                                RowDefinitions="55, *"
+                                ColumnDefinitions="*">
+                                <Label
+                                    Grid.Column="0"
+                                    Text="{Binding Name}"
+                                    HeightRequest="55"
+                                    MinimumWidthRequest="60"
+                                    Padding="5,0,0,5"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CommonBoldLabel}"/>
+
+                                <!--players points-->
+                                <StackLayout
+                                    BindableLayout.ItemsSource="{Binding Points}"
+                                    Grid.Row="1">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout>
+                                                <Label
+                                                    Text="{Binding}"
+                                                    HeightRequest="25"
+                                                    WidthRequest="55"
+                                                    VerticalTextAlignment="Center"
+                                                    HorizontalTextAlignment="Center"
+                                                    Style="{StaticResource CommonLightLabel}"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+        
+        <!--Add points button-->
+        <Button
+            Grid.Row="1"
+            Margin="0"
+            Padding="0"
+            HorizontalOptions="Center"
+            Clicked="AddRoundButtonClick"
+            Style="{StaticResource PositiveButton}"/>
+    </Grid>
+    
+</ContentPage>

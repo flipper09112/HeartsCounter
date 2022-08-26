@@ -1,5 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
+using HeartsCounter.Services.Interfaces.CrossPlatform;
+using HeartsCounter.Services.Interfaces.Database;
 
 namespace HeartsCounter;
 
@@ -11,5 +13,12 @@ public class MainApplication : MauiApplication
 	{
 	}
 
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+	protected override MauiApp CreateMauiApp()
+	{
+        var builder = MauiApp.CreateBuilder();
+
+        builder.Services.AddSingleton<IBottomSheetDialogService, BottomSheetDialogService>();
+
+        return MauiProgram.CreateMauiApp(builder);
+    }
 }

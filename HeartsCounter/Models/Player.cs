@@ -17,6 +17,8 @@ public class Player : ICloneable
     public string Name { get; set; }
     public string PlaceHolder { get; set; } = "Player name";
 
+    public List<int> Points { get; set; } = new List<int>() { 0 };
+
     public object Clone()
     {
         return new Player(this);

@@ -54,6 +54,7 @@
 	  <None Remove="Resources\Images\AddNewGame\ic_chestnut.svg" />
 	  <None Remove="Resources\Images\AddNewGame\ic_spades_queen.svg" />
 	  <None Remove="Resources\Images\heart_counter_logo.svg" />
+	  <None Remove="Resources\Images\ic_game_on.svg" />
 	  <None Remove="Resources\Images\ic_heart.svg" />
 	  <None Remove="Resources\Images\ic_history.svg" />
 	  <None Remove="Resources\Images\ic_new_game.svg" />
@@ -78,7 +79,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\CurrentGame\GamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\New Game\NewGamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\BottomSheetsViews\AddRoundBottomSheetView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

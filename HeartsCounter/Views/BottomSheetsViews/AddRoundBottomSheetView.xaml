@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.Views.BottomSheetsViews.AddRoundBottomSheetView"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.CurrentGame"
+             x:DataType="viewmodel:GameViewModel"
+             xmlns:model="clr-namespace:HeartsCounter.Models">
+    
+    <Frame
+        CornerRadius="25">
+
+        <Grid
+            RowDefinitions="40, 10, *"
+            ColumnDefinitions="*">
+
+            <!--header-->
+            <Label
+                Margin="0, 10, 0, 0"
+                Style="{StaticResource CommonBoldLabel}"
+                TextColor="Black"
+                HorizontalTextAlignment="Center"
+                Text="Result of new round"/>
+
+            <BoxView
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                WidthRequest="50"
+                HeightRequest="2"
+                CornerRadius="25"
+                Margin="0"
+                BackgroundColor="Gray"/>
+
+            <!--List of players-->
+            <CollectionView
+                Grid.Row="2"
+                Margin="0, 20, 0, 0"
+                ItemsSource="{Binding Players}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="model:Player">
+
+                        <Grid
+                            RowDefinitions="25,25"
+                            Margin="0,20,0,0"
+                            ColumnDefinitions="20*,40*,40*">
+
+                            <!--Name of player-->
+                            <Label
+                                Grid.Column="0"
+                                Grid.RowSpan="2"
+                                VerticalTextAlignment="Center"
+                                Text="{Binding Name}"
+                                Style="{StaticResource CommonBoldLabel}"
+                                />
+                            
+                            <!--copas field-->
+                            <Grid
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                RowDefinitions="*,*"
+                                ColumnDefinitions="30*, 70*"
+                                Margin="0"
+                                Padding="0">
+
+                                <Image
+                                    Grid.Column="0"
+                                    Grid.RowSpan="2"
+                                    HeightRequest="25"
+                                    Source="ic_heart.svg"/>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Text="Copas"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CommonBoldLabel}"/>
+
+                                <Picker
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Title="Points"
+                                    Margin="0, -10, 0, -10" 
+                                    Style="{StaticResource CommonLightLabel}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    SelectedIndexChanged="Picker_SelectedIndexChanged"
+                                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:GameViewModel}}, Path=HeartsPointsPossibleValues}"
+                                    />
+
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Frame>
+    
+</ContentPage>
