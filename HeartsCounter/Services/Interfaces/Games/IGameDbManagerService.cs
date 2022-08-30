@@ -14,5 +14,6 @@ namespace HeartsCounter.Services.Interfaces.Games
         Game GetCurrentGame();
 
         List<Game> GetAllGames();
+        void SaveGame(Game game);
     }
 }

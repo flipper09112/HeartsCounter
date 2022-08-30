@@ -1,5 +1,4 @@
-﻿using Android.OS;
-using HeartsCounter.Models.Games;
+﻿using HeartsCounter.Models.Games;
 using HeartsCounter.Services.Implementations.Database;
 using HeartsCounter.Services.Interfaces.Database;
 using HeartsCounter.Services.Interfaces.Games;
@@ -42,6 +41,11 @@ namespace HeartsCounter.Services.Implementations.Games
             var list = _databaseManagerService.SQLConnetion.Table<Game>().ToList();
 
             return list.Count == 0 ? null : list.First();
+        }
+
+        public void SaveGame(Game game)
+        {
+            _databaseManagerService.SQLConnetion.Update(game);
         }
     }
 }

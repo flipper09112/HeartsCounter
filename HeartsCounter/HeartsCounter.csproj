@@ -60,6 +60,7 @@
 	  <None Remove="Resources\Images\ic_new_game.svg" />
 	  <None Remove="Resources\Images\ic_number_players.svg" />
 	  <None Remove="Resources\Images\ic_settings.svg" />
+	  <None Remove="Resources\Raw\ic_trophy.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,6 +72,8 @@
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.8" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
+	  <PackageReference Include="SkiaSharp" Version="2.88.1" />
+	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
 	  <PackageReference Include="SQLitePCLRaw.core" Version="2.1.0" />
@@ -79,6 +82,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\CurrentGame\FinishedGamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\CurrentGame\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace HeartsCounter.Models;
 
-public class Player : ICloneable
+public partial class Player : ObservableObject, ICloneable
 {
     public Player() { }
 
@@ -13,11 +14,17 @@ public class Player : ICloneable
         PlaceHolder = player.PlaceHolder;
     }
 
-    public int PlayerNumber { get; set; }
-    public string Name { get; set; }
-    public string PlaceHolder { get; set; } = "Player name";
+    [ObservableProperty]
+    public int playerNumber;
 
-    public List<int> Points { get; set; } = new List<int>() { 0 };
+    [ObservableProperty]
+    public string name;
+
+    [ObservableProperty]
+    public string placeHolder = "Player name";
+
+    [ObservableProperty]
+    public ObservableCollection<int> points = new ObservableCollection<int>() { 0 };
 
     public object Clone()
     {

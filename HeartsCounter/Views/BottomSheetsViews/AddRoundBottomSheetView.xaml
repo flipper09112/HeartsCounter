@@ -10,7 +10,7 @@
         CornerRadius="25">
 
         <Grid
-            RowDefinitions="40, 10, *"
+            RowDefinitions="40, 10, *, 150"
             ColumnDefinitions="*">
 
             <!--header-->
@@ -34,23 +34,23 @@
             <CollectionView
                 Grid.Row="2"
                 Margin="0, 20, 0, 0"
-                ItemsSource="{Binding Players}">
+                ItemsSource="{Binding NewRoundModelList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate
-                        x:DataType="model:Player">
-
+                        x:DataType="viewmodel:NewRoundModel">
                         <Grid
                             RowDefinitions="25,25"
                             Margin="0,20,0,0"
-                            ColumnDefinitions="20*,40*,40*">
+                            ColumnDefinitions="20*,60*,20*">
 
                             <!--Name of player-->
                             <Label
                                 Grid.Column="0"
                                 Grid.RowSpan="2"
                                 VerticalTextAlignment="Center"
-                                Text="{Binding Name}"
+                                Text="{Binding Player.Name}"
                                 Style="{StaticResource CommonBoldLabel}"
+                                TextColor="Black"
                                 />
                             
                             <!--copas field-->
@@ -61,37 +61,70 @@
                                 ColumnDefinitions="30*, 70*"
                                 Margin="0"
                                 Padding="0">
-
                                 <Image
                                     Grid.Column="0"
                                     Grid.RowSpan="2"
                                     HeightRequest="25"
+                                    HorizontalOptions="End"
                                     Source="ic_heart.svg"/>
-
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     Text="Copas"
                                     HorizontalTextAlignment="Center"
-                                    Style="{StaticResource CommonBoldLabel}"/>
-
+                                    Style="{StaticResource CommonBoldLabel}"
+                                    TextColor="Black"/>
                                 <Picker
+                                    x:Name="{Binding Player.PlayerNumber}"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Title="Points"
-                                    Margin="0, -10, 0, -10" 
+                                    Margin="0, -10, 0, -10"
                                     Style="{StaticResource CommonLightLabel}"
                                     HorizontalTextAlignment="Center"
                                     VerticalTextAlignment="Center"
-                                    SelectedIndexChanged="Picker_SelectedIndexChanged"
+                                    SelectedItem="{Binding HeartsPoints}"
                                     ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:GameViewModel}}, Path=HeartsPointsPossibleValues}"
-                                    />
-
+                                    TextColor="Black"/>
                             </Grid>
+                            
+                            <!--Spades Queen-->
+                            <Grid
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                RowDefinitions="*,*"
+                                ColumnDefinitions="50*, 50*"
+                                Margin="0"
+                                Padding="0">
+                                <Image
+                                    Grid.Column="0"
+                                    Grid.RowSpan="2"
+                                    HeightRequest="25"
+                                    HorizontalOptions="End"
+                                    Source="ic_spades_queen.svg"/>
+
+                                <CheckBox
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1" 
+                                    Color="Black"
+                                    HorizontalOptions="Start"
+                                    IsChecked="{Binding WinSpadesQueen}"/>
+                                
+                            </Grid>
+                            
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <!--Create Game Button-->
+            <Button
+                Grid.Row="3"
+                Text="Add round"
+                VerticalOptions="Start"
+                IsEnabled="{Binding CanAddNewRound}"
+                Command="{Binding AddRoundCommand}"
+                Style="{StaticResource PositiveButton}"/>
         </Grid>
     </Frame>
     

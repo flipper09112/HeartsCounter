@@ -9,5 +9,6 @@ namespace HeartsCounter.Services.Interfaces.CrossPlatform
     public interface IBottomSheetDialogService
     {
         void ShowBottomSheet(Page page, IView bottomSheetContent, bool dimDismiss);
+        void HideCurrentBottomSheet();
     }
 }

@@ -8,7 +8,7 @@ using HeartsCounter.Services.Interfaces.Games;
 using HeartsCounter.ViewModels;
 using HeartsCounter.ViewModels.CurrentGame;
 using HeartsCounter.ViewModels.NewGame;
-using HeartsCounter.Views.BottomSheetsViews;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace HeartsCounter;
 
@@ -20,7 +20,8 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
             .UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
+            .UseSkiaSharp()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -60,6 +61,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<MainViewModel>();
         builder.Services.AddTransient<NewGameViewModel>();
         builder.Services.AddTransient<GameViewModel>();
+        builder.Services.AddTransient<FinishedGameViewModel>();
     }
 
 	private static void RegisterPages(MauiAppBuilder builder)
@@ -67,7 +69,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<NewGamePage>();
         builder.Services.AddTransient<GamePage>();
-        builder.Services.AddTransient<AddRoundBottomSheetView>();
+        builder.Services.AddTransient<FinishedGamePage>();
     }
 
 	private static void RegisterServices(MauiAppBuilder builder)

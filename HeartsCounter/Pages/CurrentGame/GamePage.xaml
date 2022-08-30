@@ -6,15 +6,22 @@
              x:DataType="viewmodel:GameViewModel"
              xmlns:model="clr-namespace:HeartsCounter.Models"
              Shell.NavBarIsVisible="True"
+             xmlns:local="clr-namespace:HeartsCounter.Helpers.Converters" 
              Title="{Binding Title}">
-
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:GamePointsColorConverter x:Key="ColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <Grid
         RowDefinitions="*, 80"
         ColumnDefinitions="*">
         <ScrollView>
             <Grid
                 RowDefinitions="55, *"
-                ColumnDefinitions="55, *">
+                ColumnDefinitions="55, 5, *">
                 
                 <!--Rounds label title-->
                 <Label
@@ -27,55 +34,72 @@
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource CommonBoldLabel}"/>
 
+                <BoxView
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    WidthRequest="2"
+                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+
                 <!--rounds number-->
-                <ScrollView 
+                <ListView
                     Grid.Row="1"
                     Grid.Column="0"
-                    Padding="0"
-                    VerticalScrollBarVisibility="Never">
-                    <StackLayout
-                        Padding="0"
-                        BindableLayout.ItemsSource="{Binding Rounds}">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout
-                                    Padding="0">
-                                    <Label
-                                        Text="{Binding}"
-                                        HeightRequest="25"
-                                        WidthRequest="55"
-                                        VerticalTextAlignment="Center"
-                                        HorizontalTextAlignment="Center"
-                                        Style="{StaticResource CommonBoldLabel}"/>
-                                </StackLayout>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
-                </ScrollView>
+                    Margin="0"
+                    RowHeight="25"
+                    SeparatorVisibility="None"
+                    ItemsSource="{Binding Rounds}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label
+                                    HeightRequest="25"
+                                    WidthRequest="55"
+                                    Text="{Binding}"
+                                    Margin="0"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CommonBoldLabel}"/>
+
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
                 <!--Players List-->
                 <CollectionView
+                    x:Name="PlayersCollectionView"
                     Grid.RowSpan="2"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     ItemsSource="{Binding Players}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate
+                            x:Name="playerColunm"
                             x:DataType="model:Player">
                             <Grid
                                 RowDefinitions="55, *"
-                                ColumnDefinitions="*">
-                                <Label
-                                    Grid.Column="0"
-                                    Text="{Binding Name}"
-                                    HeightRequest="55"
-                                    MinimumWidthRequest="60"
-                                    Padding="5,0,0,5"
-                                    VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="Center"
-                                    Style="{StaticResource CommonBoldLabel}"/>
+                                ColumnDefinitions="*, 5">
+                                <Border
+                                    Stroke="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    StrokeThickness="2">
+                                    <Label
+                                        Grid.Column="0"
+                                        Text="{Binding Name}"
+                                        HeightRequest="55"
+                                        MinimumWidthRequest="60"
+                                        Padding="5,0,5,0"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource CommonBoldLabel}"/>
+                                </Border>
+
+                                <BoxView
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    WidthRequest="2"
+                                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
 
                                 <!--players points-->
                                 <StackLayout
@@ -85,12 +109,14 @@
                                         <DataTemplate>
                                             <StackLayout>
                                                 <Label
-                                                    Text="{Binding}"
+                                                    Text="{Binding .}"
                                                     HeightRequest="25"
                                                     WidthRequest="55"
                                                     VerticalTextAlignment="Center"
                                                     HorizontalTextAlignment="Center"
-                                                    Style="{StaticResource CommonLightLabel}"/>
+                                                    Style="{StaticResource CommonLightLabel}"
+                                                    TextColor="{Binding Source={RelativeSource Self}, Path=Text, Converter = {StaticResource ColorConverter}, ConverterParameter={x:Reference Name=PlayersCollectionView} }"
+                                                    />
                                             </StackLayout>
                                         </DataTemplate>
                                     </BindableLayout.ItemTemplate>
@@ -109,6 +135,7 @@
             Padding="0"
             HorizontalOptions="Center"
             Clicked="AddRoundButtonClick"
+            Text="Add round"
             Style="{StaticResource PositiveButton}"/>
     </Grid>
     

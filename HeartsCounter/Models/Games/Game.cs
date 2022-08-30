@@ -12,10 +12,33 @@ public class Game
     [MaxLength(250)]
     public string GameName { get; set; }
 
-    [Ignore]
-    public List<Player> PlayerList => JsonSerializer.Deserialize<List<Player>>(PlayerListJson ?? String.Empty);
+    private List<Player> _playerList;
 
-    public string PlayerListJson { get; set; } 
+    [Ignore]
+    public List<Player> PlayerList
+    {
+        get
+        {
+            if(_playerList == null)
+                _playerList = JsonSerializer.Deserialize<List<Player>>(_playerListJson);
+
+            return _playerList;
+        }
+        set
+        {
+            _playerList = value;
+        }
+    }
+
+    private string _playerListJson;
+    public string PlayerListJson
+    {
+        get => JsonSerializer.Serialize(PlayerList ?? new List<Player>());
+        set
+        {
+            _playerListJson = value;
+        }
+    } 
 
     public bool AscendentPontuation { get; set; }
 

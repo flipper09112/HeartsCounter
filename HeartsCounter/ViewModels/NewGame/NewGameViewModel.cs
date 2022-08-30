@@ -95,7 +95,7 @@ namespace HeartsCounter.ViewModels.NewGame
             _gameDbManagerService.AddNewGame(new Game()
             {
                 GameName = NewGameName,
-                PlayerListJson = JsonSerializer.Serialize(Players),
+                PlayerList = Players,
                 AscendentPontuation = true,
                 SpadesQueenPointsValue = SpadesQueenPoints,
                 EndScoreValue = ChestnutPoints.Value

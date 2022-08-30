@@ -12,6 +12,6 @@ public partial class AppShell : Shell
 
 		Routing.RegisterRoute(nameof(NewGamePage), typeof(NewGamePage));
 		Routing.RegisterRoute(nameof(GamePage), typeof(GamePage));
-		Routing.RegisterRoute(nameof(AddRoundBottomSheetView), typeof(AddRoundBottomSheetView));
+		Routing.RegisterRoute(nameof(FinishedGamePage), typeof(FinishedGamePage));
     }
 }
