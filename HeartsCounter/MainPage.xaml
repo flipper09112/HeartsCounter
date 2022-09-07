@@ -4,7 +4,6 @@
              x:Class="HeartsCounter.MainPage"
              xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels"
              x:DataType="viewmodel:MainViewModel">
-
     <Grid
         ColumnDefinitions="*"
         RowDefinitions="260, *, 30">
@@ -24,7 +23,7 @@
                     Grid.ColumnSpan="2"
                     Grid.Row="0"
                     Margin="0, 40, 0, 0"
-                    Source="heart_counter_logo.svg"/>
+                    Source="heart_counter_logo"/>
 
                 <Label
                     Grid.ColumnSpan="2"
@@ -40,6 +39,7 @@
         
         <!--Options list-->
         <CollectionView
+            x:Name="MainCollectionView"
             ItemsSource="{Binding Options}"
             Grid.Row="1"
             ItemsLayout="VerticalGrid, 2"
@@ -55,6 +55,7 @@
                         Margin="10">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer 
+                                Tapped="TapGestureRecognizer_Tapped"
                                 CommandParameter="{Binding .}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=OptionClickCommand}"/>
                         </Frame.GestureRecognizers>
@@ -89,5 +90,13 @@
             FontFamily="AristaProLight"
             FontSize="12"
             />
+
+
+        <ActivityIndicator 
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="3"
+            HeightRequest="50"
+            IsRunning="{Binding IsBusy}"
+            Color="{StaticResource Gradient_Color_2}"/>
     </Grid>
 </ContentPage>

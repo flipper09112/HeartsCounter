@@ -23,7 +23,7 @@ public class BottomSheetDialogService : IBottomSheetDialogService
     {
         _bottomSheetDialog = new BottomSheetDialog(MainActivity.Current);
         var view = bottomSheetContent.ToContainerView(page.Handler?.MauiContext ?? throw new Exception("MauiContext is null"));
-        view.SetBackgroundColor(Colors.Yellow.AsColor());
+        view.SetBackgroundColor(Colors.White.AsColor());
 
         _bottomSheetDialog.SetContentView(view);
 

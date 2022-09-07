@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.Pages.Settings.AppInfoPage"
+             Shell.NavBarIsVisible="True"
+             Shell.BackgroundColor="{StaticResource Gradient_Color_2}"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.Settings"
+             x:DataType="viewmodel:AppInfoViewModel"
+             Title="Info">
+    
+    <Grid
+        RowDefinitions="220, 120, *">
+
+        <BoxView
+            Color="{StaticResource Gradient_Color_2}"/>
+
+        <Image
+            Source="heart_counter_logo"
+            HeightRequest="150"
+            WidthRequest="150"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+
+        <Label
+            Margin="30,30,30,0"
+            Grid.Row="1"
+            Text="My name is Filipe Torres and i am a Xamarin mobile developer and made this app for learn and practice some important concepts of .NET MAUI."
+            Style="{StaticResource CommonLightLabel}"
+            FontSize="18"/>
+
+        <Grid
+            Grid.Row="2"
+            Margin="30,0,30,30"
+            ColumnDefinitions="*,*"
+            RowDefinitions="*,*">
+
+            <Frame
+                Grid.Column="0"
+                Grid.Row="0"
+                HeightRequest="100"
+                WidthRequest="100">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenGithubCommand}"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+                <Image
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    Source="ic_git"/>
+            </Frame>
+
+            <Frame
+                Grid.Column="0"
+                Grid.Row="1"
+                HeightRequest="100"
+                WidthRequest="100">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenLinkedinCommand}"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+                <Image
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    Source="ic_linkedin"/>
+            </Frame>
+
+            <Frame
+                Grid.Column="1"
+                Grid.Row="0"
+                HeightRequest="100"
+                WidthRequest="100">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenTwitterCommand}"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+                <Image
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    Source="ic_twitter"/>
+            </Frame>
+
+        </Grid>
+    </Grid>
+    
+</ContentPage>

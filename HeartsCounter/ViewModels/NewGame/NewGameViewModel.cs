@@ -95,13 +95,15 @@ namespace HeartsCounter.ViewModels.NewGame
             _gameDbManagerService.AddNewGame(new Game()
             {
                 GameName = NewGameName,
+                GameType = GameTypeEnum.Copas,
                 PlayerList = Players,
                 AscendentPontuation = true,
                 SpadesQueenPointsValue = SpadesQueenPoints,
-                EndScoreValue = ChestnutPoints.Value
+                EndScoreValue = ChestnutPoints.Value,
+                StartDate = DateTime.Now
             });
 
-            await Shell.Current.GoToAsync(nameof(GamePage), true);
+            await Shell.Current.GoToAsync("../" + nameof(GamePage), true);
         }
 
         public bool CanExecuteCreateGame()

@@ -1,6 +1,9 @@
 ﻿using HeartsCounter.Models;
+using HeartsCounter.Models.Games;
+using HeartsCounter.ViewModels.CurrentGame;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,35 +17,20 @@ namespace HeartsCounter.Helpers.Converters
         {
             AppTheme currentTheme = (AppTheme)Application.Current.RequestedTheme;
 
-            if (value == null)
+            GameViewModel vm = (GameViewModel)value;
+            RoundData lastRound = (RoundData)vm.Rounds.Last();
+            var label = (Label)parameter;
+
+            if (value == null || string.IsNullOrEmpty(label.Text))
                 return currentTheme == AppTheme.Light ? Colors.Black : Colors.White;
 
-            CollectionView collectionView = (CollectionView)parameter;
-            List<Player> itemSource = (List<Player>)collectionView.ItemsSource;
-
-            int maxValue = int.MinValue;
-            int minValue = int.MaxValue;
-
-            itemSource.ForEach(player =>
-            {
-                var points = player.Points.Last();
-
-                if (points > maxValue)
-                    maxValue = points;
-
-                if (points < minValue)
-                    minValue = points;
-            });
-
-            string labelText = (string)value;
-
-            if (labelText != minValue.ToString() && labelText != maxValue.ToString())
+            if (label.Text != lastRound.MinRoundValue.ToString() && label.Text != lastRound.MaxRoundValue.ToString())
                 return currentTheme == AppTheme.Light ? Colors.Black : Colors.White;
-            else if (minValue == maxValue)
+            else if (lastRound.MinRoundValue == lastRound.MaxRoundValue)
                 return Colors.Yellow;
-            else if (labelText == minValue.ToString())
+            else if (label.Text == lastRound.MinRoundValue.ToString())
                 return Colors.Green;
-            else if (labelText == maxValue.ToString())
+            else if (label.Text == lastRound.MaxRoundValue.ToString())
                 return Colors.Red;
 
             return currentTheme == AppTheme.Light ? Colors.Black : Colors.White;

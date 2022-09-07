@@ -9,11 +9,14 @@ namespace HeartsCounter.Services.Interfaces.Games
 {
     public interface IGameDbManagerService
     {
+        Game SelectedHistoryGame { get; set; }
+
         bool AddNewGame(Game newGame);
 
         Game GetCurrentGame();
-
+        List<Game> GetAllGamesFinished();
         List<Game> GetAllGames();
+
         void SaveGame(Game game);
     }
 }

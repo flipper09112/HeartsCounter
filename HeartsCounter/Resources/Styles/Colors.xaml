@@ -46,4 +46,6 @@
     <Color x:Key="Gradient_Color_2">#D9A49E</Color>
     <Color x:Key="Gradient_Color_3">#E4ECF2</Color>
 
+    <Color x:Key="Gradient_Dark_Gray">#AAB0B4</Color>
+
 </ResourceDictionary>

@@ -9,6 +9,8 @@ namespace HeartsCounter.Services.Implementations.Games
     {
         private IDatabaseManagerService _databaseManagerService;
 
+        public Game SelectedHistoryGame { get; set; }
+
         public GameDbManagerService(IDatabaseManagerService databaseManagerService)
         {
             _databaseManagerService = databaseManagerService;
@@ -20,6 +22,19 @@ namespace HeartsCounter.Services.Implementations.Games
             var result = _databaseManagerService.SQLConnetion.Insert(newGame);
 
             return result != 0;
+        }
+        public List<Game> GetAllGamesFinished()
+        {
+            try
+            {
+                return _databaseManagerService.SQLConnetion.Table<Game>().Where(game => game.GameEnded).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return new List<Game>();
         }
 
         public List<Game> GetAllGames()
@@ -40,7 +55,7 @@ namespace HeartsCounter.Services.Implementations.Games
         {
             var list = _databaseManagerService.SQLConnetion.Table<Game>().ToList();
 
-            return list.Count == 0 ? null : list.First();
+            return list.Count == 0 ? null : list.FirstOrDefault(game => !game.GameEnded);
         }
 
         public void SaveGame(Game game)

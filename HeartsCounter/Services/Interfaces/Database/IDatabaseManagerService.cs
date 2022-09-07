@@ -10,5 +10,7 @@ namespace HeartsCounter.Services.Interfaces.Database
     public interface IDatabaseManagerService
     {
         SQLiteConnection SQLConnetion { get; }
+
+        void ClearAllData();
     }
 }

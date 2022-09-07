@@ -4,80 +4,50 @@
              x:Class="HeartsCounter.Pages.CurrentGame.GamePage"
              xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.CurrentGame"
              x:DataType="viewmodel:GameViewModel"
-             xmlns:model="clr-namespace:HeartsCounter.Models"
+             xmlns:model="clr-namespace:HeartsCounter.Models.Games"
              Shell.NavBarIsVisible="True"
-             xmlns:local="clr-namespace:HeartsCounter.Helpers.Converters" 
+             xmlns:local="clr-namespace:HeartsCounter.Helpers.Converters"
+             xmlns:templates="clr-namespace:HeartsCounter.Templates"
+             xmlns:playerModel="clr-namespace:HeartsCounter.Models"
              Title="{Binding Title}">
     
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:GamePointsColorConverter x:Key="ColorConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
-    
-    <Grid
-        RowDefinitions="*, 80"
-        ColumnDefinitions="*">
-        <ScrollView>
+
+        <DataTemplate x:Key="ScoreHeaderTemplate"
+                      x:DataType="model:RoundHeader">
             <Grid
-                RowDefinitions="55, *"
-                ColumnDefinitions="55, 5, *">
+                ColumnDefinitions="55, 5, *"
+                RowDefinitions="*,5">
                 
-                <!--Rounds label title-->
+                <!--table title-->
                 <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Rounds"
                     HeightRequest="55"
                     WidthRequest="55"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"
-                    Style="{StaticResource CommonBoldLabel}"/>
+                    Style="{StaticResource CommonBoldLabel}"
+                    Text="{Binding RoundHeaderTitle}"/>
 
+                <!--line separator-->
                 <BoxView
                     Grid.RowSpan="2"
                     Grid.Column="1"
                     WidthRequest="2"
                     Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
 
-                <!--rounds number-->
-                <ListView
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="0"
-                    RowHeight="25"
-                    SeparatorVisibility="None"
-                    ItemsSource="{Binding Rounds}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Label
-                                    HeightRequest="25"
-                                    WidthRequest="55"
-                                    Text="{Binding}"
-                                    Margin="0"
-                                    VerticalTextAlignment="Center"
-                                    HorizontalTextAlignment="Center"
-                                    Style="{StaticResource CommonBoldLabel}"/>
-
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
                 <!--Players List-->
-                <CollectionView
-                    x:Name="PlayersCollectionView"
+                <StackLayout
                     Grid.RowSpan="2"
                     Grid.Column="2"
-                    ItemsSource="{Binding Players}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Horizontal" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+                    Orientation="Horizontal"
+                    BindableLayout.ItemsSource="{Binding Players}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate
                             x:Name="playerColunm"
-                            x:DataType="model:Player">
+                            x:DataType="playerModel:Player">
                             <Grid
                                 RowDefinitions="55, *"
                                 ColumnDefinitions="*, 5">
@@ -88,7 +58,7 @@
                                         Grid.Column="0"
                                         Text="{Binding Name}"
                                         HeightRequest="55"
-                                        MinimumWidthRequest="60"
+                                        WidthRequest="100"
                                         Padding="5,0,5,0"
                                         VerticalTextAlignment="Center"
                                         HorizontalTextAlignment="Center"
@@ -100,32 +70,151 @@
                                     Grid.Column="1"
                                     WidthRequest="2"
                                     Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
-
-                                <!--players points-->
-                                <StackLayout
-                                    BindableLayout.ItemsSource="{Binding Points}"
-                                    Grid.Row="1">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackLayout>
-                                                <Label
-                                                    Text="{Binding .}"
-                                                    HeightRequest="25"
-                                                    WidthRequest="55"
-                                                    VerticalTextAlignment="Center"
-                                                    HorizontalTextAlignment="Center"
-                                                    Style="{StaticResource CommonLightLabel}"
-                                                    TextColor="{Binding Source={RelativeSource Self}, Path=Text, Converter = {StaticResource ColorConverter}, ConverterParameter={x:Reference Name=PlayersCollectionView} }"
-                                                    />
-                                            </StackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </StackLayout>
                             </Grid>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                
+                <!--line separator-->
+                <BoxView
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    HeightRequest="2"
+                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
             </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NormalRoundLabelTemplate"
+                      x:DataType="model:RoundData">
+            <Grid
+                ColumnDefinitions="55, 5, *">
+
+                <!--left numbers-->
+                <Label
+                    HeightRequest="25"
+                    WidthRequest="55"
+                    Text="{Binding RoundNumber}"
+                    Margin="0"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource CommonBoldLabel}"/>
+
+                <!--line separator-->
+                <BoxView
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    WidthRequest="2"
+                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+
+                <!--Players Points-->
+                <StackLayout
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    BindableLayout.ItemsSource="{Binding RoundPoints}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="104, 5">
+
+                                <Label
+                                    Grid.Column="0"
+                                    Text="{Binding .}"
+                                    HeightRequest="25"
+                                    WidthRequest="55"
+                                    Padding="5,0,5,0"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CommonBoldLabel}"/>
+
+                                <BoxView
+                                    Grid.Column="1"
+                                    WidthRequest="2"
+                                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LastRoundLabelTemplate"
+                      x:DataType="model:RoundData">
+            <Grid
+                ColumnDefinitions="55, 5, *">
+
+                <!--points values-->
+                <Label
+                    HeightRequest="25"
+                    WidthRequest="55"
+                    Text="{Binding RoundNumber}"
+                    Margin="0,0,0,100"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource CommonBoldLabel}"/>
+
+                <!--line separator-->
+                <BoxView
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    WidthRequest="2"
+                    Margin="0,0,0,100"
+                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+
+                <!--Players Points-->
+                <StackLayout
+                    x:Name="StackLayoutView"
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    BindableLayout.ItemsSource="{Binding RoundPoints}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="104, 5"
+                                Margin="0,0,0,100">
+
+                                <Label
+                                    x:Name="pointsLabel"
+                                    Grid.Column="0"
+                                    Text="{Binding .}"
+                                    HeightRequest="25"
+                                    WidthRequest="55"
+                                    Padding="5,0,5,0"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CommonBoldLabel}"
+                                    TextColor="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}, AncestorLevel=2}, Path=BindingContext, Converter = {StaticResource ColorConverter}, ConverterParameter={x:Reference pointsLabel}}"/>
+
+                                <BoxView
+                                    Grid.Column="1"
+                                    WidthRequest="2"
+                                    Color="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </Grid>
+        </DataTemplate>
+
+        <templates:ScoreCellTemplateSelector x:Key="ScoreCellTemplateSelector"
+                                             ScoreHeaderTemplate="{StaticResource ScoreHeaderTemplate}"
+                                             NormalRoundLabelTemplate="{StaticResource NormalRoundLabelTemplate}" 
+                                             LastRoundLabelTemplate="{StaticResource LastRoundLabelTemplate}" />
+    </ContentPage.Resources>
+    
+    <Grid
+        RowDefinitions="*, 80"
+        ColumnDefinitions="*">
+
+        <ScrollView
+            Grid.RowSpan="2"
+            Orientation="Vertical">
+            <ScrollView
+                Orientation="Horizontal">
+                <StackLayout
+                    BindableLayout.ItemsSource="{Binding Rounds}"
+                    BindableLayout.ItemTemplateSelector="{StaticResource ScoreCellTemplateSelector}">
+                </StackLayout>
+            </ScrollView>
         </ScrollView>
         
         <!--Add points button-->
@@ -136,6 +225,7 @@
             HorizontalOptions="Center"
             Clicked="AddRoundButtonClick"
             Text="Add round"
+            IsVisible="{Binding FromHistoryPage}"
             Style="{StaticResource PositiveButton}"/>
     </Grid>
     

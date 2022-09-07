@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HeartsCounter.Pages.CurrentGame;
+using HeartsCounter.Pages.History;
 using HeartsCounter.Pages.New_Game;
+using HeartsCounter.Pages.Settings;
 using HeartsCounter.Services.Interfaces.Games;
-using System.Windows.Input;
+
 namespace HeartsCounter.ViewModels;
 
 public partial class MainViewModel : BaseViewModel
@@ -23,7 +25,7 @@ public partial class MainViewModel : BaseViewModel
         GetOptions();
     }
 
-    private void GetOptions()
+    public void GetOptions()
     {
         _options = new List<Option>();
 
@@ -33,7 +35,7 @@ public partial class MainViewModel : BaseViewModel
             {
                 OptionType = OptionTypeEnum.CurrentGame,
                 Name = "Current Game",
-                Image = "ic_game_on.svg"
+                Image = "ic_game_on"
             });
         }
 
@@ -41,21 +43,21 @@ public partial class MainViewModel : BaseViewModel
         {
             OptionType = OptionTypeEnum.NewGame,
             Name = "New Game",
-            Image = "ic_new_game.svg"
+            Image = "ic_new_game"
         });
 
         _options.Add(new Option()
         {
             OptionType = OptionTypeEnum.History,
             Name = "History",
-            Image = "ic_history.svg"
+            Image = "ic_history"
         });
 
         _options.Add(new Option()
         {
             OptionType = OptionTypeEnum.Options,
             Name = "Options",
-            Image = "ic_settings.svg"
+            Image = "ic_settings"
         });
     }
 
@@ -71,8 +73,10 @@ public partial class MainViewModel : BaseViewModel
                 ShowNewGamePage();
                 break;
             case OptionTypeEnum.History:
+                ShowHistoryPage();
                 break;
             case OptionTypeEnum.Options:
+                ShowSettingsPage();
                 break;
             case OptionTypeEnum.None:
             default:
@@ -80,14 +84,32 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
+    private async void ShowSettingsPage()
+    {
+        IsBusy = true;
+        await Shell.Current.GoToAsync(nameof(SettingsPage), true);
+        IsBusy = false;
+    }
+
+    private async void ShowHistoryPage()
+    {
+        IsBusy = true;
+        await Shell.Current.GoToAsync(nameof(GamesHistoryPage), true);
+        IsBusy = false;
+    }
+
     private async void ShowCurrentGameAsync()
     {
+        IsBusy = true;
         await Shell.Current.GoToAsync(nameof(GamePage), true);
+        IsBusy = false;
     }
 
     private async void ShowNewGamePage()
     {
+        IsBusy = true;
         await Shell.Current.GoToAsync(nameof(NewGamePage), true);
+        IsBusy = false;
     }
 }
 

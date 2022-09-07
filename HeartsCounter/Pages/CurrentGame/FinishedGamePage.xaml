@@ -2,26 +2,99 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.CurrentGame"
+             x:DataType="viewmodel:FinishedGameViewModel"
              x:Class="HeartsCounter.Pages.CurrentGame.FinishedGamePage"
              Title="FinishedGamePage">
     <Grid
-        RowDefinitions="100,*"
+        RowDefinitions="100, *"
         ColumnDefinitions="*"
-        BackgroundColor="Gray">
-
+        BackgroundColor="{StaticResource Gradient_Color_3}">
+        
         <Label
             Grid.Row="0"
             Text="Finished Game"
             Style="{StaticResource TitleLabel}"
             TextColor="Black"
             VerticalTextAlignment="Center"/>
+        
+        <Grid
+            MaximumWidthRequest="200"
+            RowDefinitions="25, *, 25, 50, 25, *, 25, 100"
+            Grid.Row="1">
 
-        <skia:SKLottieView
+            <Label
+                Text="Winner"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Style="{StaticResource CommonBoldLabel}"
+                TextColor="Goldenrod"
+                FontSize="22"/>
+
+            <Image
+                Grid.Row="1"
+                WidthRequest="150"
+                HeightRequest="150"
+                Source="ic_player_win"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+
+            <Label
+                Grid.Row="2"
+                Text="{Binding WinnerPlayer.Name}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Style="{StaticResource CommonLightLabel}"
+                TextColor="Green"
+                VerticalTextAlignment="Start"
+                FontSize="22"/>
+
+            <Label
+                Grid.Row="4"
+                Text="Loser"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Style="{StaticResource CommonBoldLabel}"
+                TextColor="Goldenrod"
+                FontSize="22"/>
+
+            <Image
+                Grid.Row="5"
+                WidthRequest="150"
+                HeightRequest="150"
+                Source="ic_loser"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+
+            <Label
+                Grid.Row="6"
+                Text="{Binding LoserPlayer.Name}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Style="{StaticResource CommonLightLabel}"
+                TextColor="Red"
+                FontSize="22"/>
+
+            <Button
+                Grid.Row="7"
+                Margin="0"
+                Padding="0"
+                HorizontalOptions="Center"
+                Command="{Binding EndGameCommand}"
+                Text="Finish game"
+                Style="{StaticResource PositiveButton}"/>
+
+        </Grid>
+       
+
+        <!--skia:SKLottieView
             Grid.Row="1"
             RepeatCount="-1"
             Source="ic_trophy.json"
             HeightRequest="300"
-            WidthRequest="300"/>
+            WidthRequest="300"/-->
+
+        
 
     </Grid>
 </ContentPage>

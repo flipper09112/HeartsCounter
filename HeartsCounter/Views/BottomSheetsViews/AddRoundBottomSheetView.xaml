@@ -4,10 +4,11 @@
              x:Class="HeartsCounter.Views.BottomSheetsViews.AddRoundBottomSheetView"
              xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.CurrentGame"
              x:DataType="viewmodel:GameViewModel"
-             xmlns:model="clr-namespace:HeartsCounter.Models">
+             xmlns:model="clr-namespace:HeartsCounter.Models.Games">
     
     <Frame
-        CornerRadius="25">
+        CornerRadius="25"
+        BorderColor="Transparent">
 
         <Grid
             RowDefinitions="40, 10, *, 150"
@@ -37,7 +38,7 @@
                 ItemsSource="{Binding NewRoundModelList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate
-                        x:DataType="viewmodel:NewRoundModel">
+                        x:DataType="model:NewRoundModel">
                         <Grid
                             RowDefinitions="25,25"
                             Margin="0,20,0,0"

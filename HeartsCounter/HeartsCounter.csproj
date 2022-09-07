@@ -32,10 +32,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" BaseSize="424, 520" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\AppIcon\appicon.svg" Color="#D9A49E" BaseSize="64,64" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -53,18 +53,60 @@
 	  <None Remove="Resources\Fonts\arista_pro_light.ttf" />
 	  <None Remove="Resources\Images\AddNewGame\ic_chestnut.svg" />
 	  <None Remove="Resources\Images\AddNewGame\ic_spades_queen.svg" />
+	  <None Remove="Resources\Images\CurrentGame\ic_loser.png" />
+	  <None Remove="Resources\Images\CurrentGame\ic_player_win.svg" />
 	  <None Remove="Resources\Images\heart_counter_logo.svg" />
+	  <None Remove="Resources\Images\History\ic_carroca.svg" />
+	  <None Remove="Resources\Images\History\ic_hole.svg" />
+	  <None Remove="Resources\Images\History\ic_no_history.svg" />
+	  <None Remove="Resources\Images\History\ic_sueca.svg" />
 	  <None Remove="Resources\Images\ic_game_on.svg" />
 	  <None Remove="Resources\Images\ic_heart.svg" />
 	  <None Remove="Resources\Images\ic_history.svg" />
 	  <None Remove="Resources\Images\ic_new_game.svg" />
 	  <None Remove="Resources\Images\ic_number_players.svg" />
 	  <None Remove="Resources\Images\ic_settings.svg" />
+	  <None Remove="Resources\Images\Settings\ic_appearance.svg" />
+	  <None Remove="Resources\Images\Settings\ic_arrow_up.svg" />
+	  <None Remove="Resources\Images\Settings\ic_bulb.svg" />
+	  <None Remove="Resources\Images\Settings\ic_clear_data.svg" />
+	  <None Remove="Resources\Images\Settings\ic_close.svg" />
+	  <None Remove="Resources\Images\Settings\ic_git.svg" />
+	  <None Remove="Resources\Images\Settings\ic_info.svg" />
+	  <None Remove="Resources\Images\Settings\ic_linkedin.svg" />
+	  <None Remove="Resources\Images\Settings\ic_twitter.svg" />
 	  <None Remove="Resources\Raw\ic_trophy.json" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Settings\ic_appearance.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_arrow_up.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_bulb.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_clear_data.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\History\ic_carroca.svg" />
+	  <MauiImage Include="Resources\Images\History\ic_hole.svg" />
+	  <MauiImage Include="Resources\Images\History\ic_sueca.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\History\ic_no_history.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\CurrentGame\ic_loser.png" />
+	  <MauiImage Include="Resources\Images\CurrentGame\ic_player_win.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\AddNewGame\ic_chestnut.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_close.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_git.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_info.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_linkedin.svg" />
+	  <MauiImage Include="Resources\Images\Settings\ic_twitter.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -88,7 +130,16 @@
 	  <MauiXaml Update="Pages\CurrentGame\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\History\GamesHistoryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\New Game\NewGamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Settings\AppInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Settings\SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\BottomSheetsViews\AddRoundBottomSheetView.xaml">

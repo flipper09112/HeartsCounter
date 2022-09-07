@@ -39,26 +39,69 @@ namespace HeartsCounter.ViewModels.CurrentGame
         private Game _game;
 
         [ObservableProperty]
-        private ObservableCollection<string> _rounds;
+        private ObservableCollection<Round> _rounds;
 
         [ObservableProperty]
         private List<int> _heartsPointsPossibleValues;
-        
+
+        [ObservableProperty]
+        private bool _fromHistoryPage;
+
         public GameViewModel(IGameDbManagerService gameDbManagerService,
                              IBottomSheetDialogService bottomSheetDialogService)
         {
             _gameDbManagerService = gameDbManagerService;
             _bottomSheetDialogService = bottomSheetDialogService;
 
-            Game = _gameDbManagerService.GetCurrentGame();
+            Game = _gameDbManagerService.SelectedHistoryGame ?? _gameDbManagerService.GetCurrentGame();
+            _fromHistoryPage = _gameDbManagerService.SelectedHistoryGame == null;
+            _gameDbManagerService.SelectedHistoryGame = null;
+
             Title = Game.GameName;
             AddRoundBtnText = "Add Round";
             Players = Game.PlayerList;
 
-            var rounds = new ObservableCollection<string>();
-            Game.PlayerList[0].Points.ToList().ForEach(round => rounds.Add(string.Format("#{0}", rounds.Count)));
-            Rounds = rounds;
+            GetRounds();
+
             HeartsPointsPossibleValues = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        }
+
+        private void GetRounds()
+        {
+            var rounds = new ObservableCollection<Round>();
+
+            rounds.Add(new RoundHeader()
+            {
+                RoundHeaderTitle = "Rounds",
+                Players = Game.PlayerList
+            });
+
+            List<List<int>> roundPoints = new List<List<int>>();
+            GetAllPointsPlayerHistory(roundPoints);
+
+            for (int i = 0; i < roundPoints[0].Count; i++)
+            {
+                rounds.Add(new RoundData()
+                {
+                    RoundNumber = string.Format("#{0}", i),
+                    RoundNumberValue = i
+                });
+
+                foreach(var points in roundPoints)
+                {
+                    ((RoundData)rounds[i + 1]).RoundPoints.Add(points[i]);
+                }
+            }
+
+            Rounds = rounds;
+        }
+
+        private void GetAllPointsPlayerHistory(List<List<int>> roundPoints)
+        {
+            for (int i = 0; i < Game.PlayerList.Count; i++)
+            {
+                roundPoints.Add(Game.PlayerList[i].Points.ToList());
+            }
         }
 
         internal void ShowBottomSheet(Page page, bool dimDismiss)
@@ -88,12 +131,31 @@ namespace HeartsCounter.ViewModels.CurrentGame
         [RelayCommand(CanExecute = nameof(CanAddRound))]
         public void AddRound()
         {
-            foreach(var newRoundData in NewRoundModelList)
+            List<int> points = new List<int>();
+            foreach (var newRoundData in NewRoundModelList)
             {
                 var player = newRoundData.Player;
-                player.Points.Add(GetNewPointsValue(player, newRoundData));
+                var playerPoints = GetNewPointsValue(player, newRoundData);
+                player.Points.Add(playerPoints);
+                points.Add(playerPoints);
             }
-            Rounds.Add(string.Format("#{0}", Rounds.Count));
+
+            var rounds = Rounds;
+            var lastRound = Rounds.Last();
+            Rounds.Remove(lastRound);
+
+
+            rounds.Add(lastRound);
+            rounds.Add(new RoundData()
+            {
+                RoundNumber = string.Format("#{0}", Rounds.Count - 1),
+                RoundNumberValue = Rounds.Count - 1,
+                RoundPoints = points
+            });
+
+            Rounds = null;
+            Rounds = rounds;
+
             _gameDbManagerService.SaveGame(Game);
             _bottomSheetDialogService.HideCurrentBottomSheet();
 
@@ -118,10 +180,13 @@ namespace HeartsCounter.ViewModels.CurrentGame
 
             if(Game.AscendentPontuation && maxValue > Game.EndScoreValue)
             {
+                Game.FinishDate = DateTime.Now;
                 await Shell.Current.GoToAsync(nameof(FinishedGamePage), true);
             }
             else if(!Game.AscendentPontuation && minValue < Game.EndScoreValue)
             {
+                Game.FinishDate = DateTime.Now;
+                await Shell.Current.GoToAsync(nameof(FinishedGamePage), true);
             }
         }
 
@@ -137,43 +202,6 @@ namespace HeartsCounter.ViewModels.CurrentGame
         {
             CanAddNewRound = _newRoundModelList.Any(item => item.WinSpadesQueen) && !_newRoundModelList.Any(item => item.HeartsPoints == -1);
             return CanAddNewRound;
-        }
-    }
-
-    public partial class NewRoundModel : ObservableObject
-    {
-        private IRelayCommand _addRoundCommand;
-
-        public Action<int> ClearSpadesQueenSelection { get; }
-
-        public NewRoundModel(Player player, Action<int> clearSpadesQueenSelection, IRelayCommand addRoundCommand)
-        {
-            _addRoundCommand = addRoundCommand;
-            Player = player;
-            ClearSpadesQueenSelection = clearSpadesQueenSelection;
-        }
-
-        [ObservableProperty]
-        public Player player;
-
-        [ObservableProperty]
-        public int heartsPoints = -1;
-
-        [ObservableProperty]
-        public bool winSpadesQueen;
-
-        partial void OnWinSpadesQueenChanged(bool value)
-        {
-            _addRoundCommand.CanExecute(null);
-
-            if (!value)
-                return;
-            ClearSpadesQueenSelection?.Invoke(Player.PlayerNumber);
-        }
-
-        partial void OnHeartsPointsChanged(int value)
-        {
-            _addRoundCommand.CanExecute(null);
         }
     }
 }

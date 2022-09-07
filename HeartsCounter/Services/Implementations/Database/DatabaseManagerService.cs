@@ -31,5 +31,10 @@ namespace HeartsCounter.Services.Implementations.Database
             _conn = new SQLiteConnection(_dbPath);
             _conn.CreateTable<Game>();
         }
+
+        public void ClearAllData()
+        {
+            _conn.DeleteAll<Game>();
+        }
     }
 }

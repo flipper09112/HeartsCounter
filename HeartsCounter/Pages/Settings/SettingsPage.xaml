@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HeartsCounter.Pages.Settings.SettingsPage"
+             Shell.NavBarIsVisible="True"
+             Shell.BackgroundColor="{StaticResource Gradient_Color_2}"
+             xmlns:viewmodel="clr-namespace:HeartsCounter.ViewModels.Settings"
+             x:DataType="viewmodel:SettingsViewModel"
+             xmlns:templates="clr-namespace:HeartsCounter.TemplateSelectors"
+             Title="Settings">
+
+    <ContentPage.Resources>
+
+        <DataTemplate x:Key="SettingTitleTemplate"
+                      x:DataType="viewmodel:SettingsItemTitle">
+            <Label
+                Text="{Binding Name}"
+                FontSize="14"
+                Style="{StaticResource CommonLightLabel}"
+                TextColor="Black"
+                Margin="30, 25, 30, 10"
+                />
+        </DataTemplate>
+
+        <DataTemplate x:Key="SettingItemTemplate"
+                      x:DataType="viewmodel:SettingsItemElement">
+            <Grid
+                Margin="30, 10, 30, 10"
+                ColumnDefinitions="20*, 60*, 10*">
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Command}"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+
+                <Frame
+                    HorizontalOptions="Start"
+                    Margin="5,0,0,0"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="Gray">
+                    <Image
+                        Source="{Binding Image}"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        />
+                </Frame>
+
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding Name}"
+                    Style="{StaticResource CommonBoldLabel}"
+                    TextColor="Black"
+                    VerticalOptions="Center"/>
+
+                <Image
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    WidthRequest="15"
+                    Rotation="90"
+                    IsVisible="{Binding OpenNewPage}"
+                    HorizontalOptions="End"
+                    Source="ic_arrow_up"/>
+
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SettingItemDarkModeTemplate"
+                      x:DataType="viewmodel:SettingsItemElementTheme">
+            <Grid
+                Margin="30, 10, 30, 10"
+                ColumnDefinitions="20*, 60*, 10*"
+                RowDefinitions="*, 60">
+
+                <Frame
+                    HorizontalOptions="Start"
+                    Margin="5,0,0,0"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="Gray">
+                    <Image
+                        Source="{Binding AutoImage}"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        />
+                </Frame>
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding AutoName}"
+                    Style="{StaticResource CommonBoldLabel}"
+                    TextColor="Black"
+                    VerticalOptions="Center"/>
+                <Switch
+                    Grid.Column="2"
+                    IsToggled="{Binding Auto}"
+                    ThumbColor="{Binding ThumColor}"/>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Margin="0,10,0,0"
+                    Opacity="{Binding Opacity}"
+                    ColumnDefinitions="20*, 60*, 10*">
+                    <Frame
+                        HorizontalOptions="Start"
+                        Margin="5,0,0,0"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        CornerRadius="20"
+                        BackgroundColor="Gray">
+                        <Image
+                            Source="{Binding DarkImage}"
+                            HeightRequest="20"
+                            WidthRequest="20"/>
+                    </Frame>
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding DarkName}"
+                        Style="{StaticResource CommonBoldLabel}"
+                        TextColor="Black"
+                        VerticalOptions="Center"/>
+                    <Switch
+                        Grid.Column="2"
+                        IsToggled="{Binding DarkMode}"
+                        IsVisible="{Binding ShowDarkTogle}"
+                        ThumbColor="{Binding DarkThumColor}">
+                    </Switch>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <templates:SettingsItemSelector x:Key="SettingsItemSelector"
+                                        SettingTitleTemplate="{StaticResource SettingTitleTemplate}"
+                                        SettingItemTemplate="{StaticResource SettingItemTemplate}" 
+                                        SettingItemDarkModeTemplate ="{StaticResource SettingItemDarkModeTemplate}"/>
+    </ContentPage.Resources>
+
+    <Grid
+        RowDefinitions="150, *, 80">
+
+        <BoxView
+            Color="{StaticResource Gradient_Color_2}"/>
+
+        <Frame
+            Grid.RowSpan="2"
+            Padding="0"
+            Margin="20, 50, 20, 20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray300}, Light={StaticResource White}}"
+            HasShadow="True">
+            <Frame.Shadow>
+                <Shadow 
+                    Brush="Black"
+                    Offset="20,0"
+                    Opacity="1" />
+            </Frame.Shadow>
+
+            <CollectionView
+                SelectionMode="None"
+                ItemsSource="{Binding SettingsItemsList}"
+                ItemTemplate="{StaticResource SettingsItemSelector}">
+                
+            </CollectionView>
+        </Frame>
+
+        <!--Close App Frame-->
+        <Frame
+            Grid.Row="2"
+            Padding="0"
+            Margin="20"
+            BackgroundColor="#66ff0000"
+            HasShadow="True">
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseAppCommand}"></TapGestureRecognizer>
+            </Frame.GestureRecognizers>
+            <Frame.Shadow>
+                <Shadow 
+                    Brush="Black"
+                    Offset="20,0"
+                    Opacity="1" />
+            </Frame.Shadow>
+
+            <Grid
+                ColumnDefinitions="50*,50*">
+
+                <Image
+                    HeightRequest="20"
+                    WidthRequest="20"
+                    Source="ic_close"
+                    HorizontalOptions="End"
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    Grid.Column="1"
+                    Text="Sair"
+                    VerticalOptions="Center"
+                    Margin="10, 0 ,0 ,0"
+                    Style="{StaticResource CommonBoldLabel}"
+                    TextColor="Black"/>
+
+            </Grid>
+            
+        </Frame>
+
+    </Grid>
+</ContentPage>
